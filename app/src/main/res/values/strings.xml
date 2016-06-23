@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BuildItBigger</string>
+    <string name="root_url_api">https://build-it-bigger-gce-1333.appspot.com/_ah/api/</string>
+    <string name="nonet">No Internet Access</string>
 </resources>
