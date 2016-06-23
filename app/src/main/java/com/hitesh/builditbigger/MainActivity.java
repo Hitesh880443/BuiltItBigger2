@@ -23,4 +23,6 @@ public class MainActivity extends AppCompatActivity {
                 add(R.id.fragment, new DummyFrag(this)).commit();
 
     }
+
+
 }

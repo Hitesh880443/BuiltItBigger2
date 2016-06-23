@@ -28,6 +28,7 @@ public class DummyFrag extends Fragment {
     private static final String INTENT_JOKE = "joke";
     Context context;
     ProgressBar progressbar;
+
     public DummyFrag() {
 
     }
@@ -50,18 +51,16 @@ public class DummyFrag extends Fragment {
                 if (Util.isOnline(getActivity())) {
                     try {
 //                Toast.makeText(getActivity(), "Its Paid", Toast.LENGTH_SHORT).show();
-                        JokeFetchTask task = new JokeFetchTask((Activity)context,progressbar);
+                        JokeFetchTask task = new JokeFetchTask((Activity) context, progressbar);
                         task.execute();
 
                         String result = task.get();
-                        Log.d("Project Result", result);
-                        Intent i = new Intent(getActivity(), JokeShowActivity.class);
-                        i.putExtra(INTENT_JOKE, result);
-                        startActivity(i);
-                   /* Intent i=new Intent(getActivity(),Jokes)*/
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+
+                        startJokeDisplayActivity(result);
+
                     } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -70,6 +69,15 @@ public class DummyFrag extends Fragment {
             }
         });
         return view;
+    }
+
+    private void startJokeDisplayActivity(String result) {
+
+
+        Log.d("Project Result", result);
+        Intent i = new Intent(context, JokeShowActivity.class);
+        i.putExtra(INTENT_JOKE, result);
+        context.startActivity(i);
     }
 
 }

@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/jokessource" />
+            <option value="$PROJECT_DIR$/showjokelibrary" />
           </set>
         </option>
         <option name="myModules">
@@ -19,6 +20,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/jokessource" />
+            <option value="$PROJECT_DIR$/showjokelibrary" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,6 +1,5 @@
 package com.hitesh.builditbigger;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,12 +7,12 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.hitesh.builditbigger.backend.myApi.MyApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.hitesh.builditbigger.backend.myApi.MyApi;
 import com.hitesh.builditbigger.backend.myApi.model.MyBean;
+import com.hitesh.library.JokeShowActivity;
 
 import java.io.IOException;
 
@@ -65,15 +64,17 @@ public class JokeFetchTask extends AsyncTask<Pair<Context, String>, Void, String
         super.onPostExecute(result);
         mResult = result;
         Log.d("Project", "post");
-        if (progressbar != null)
-            progressbar.setVisibility(View.GONE);
+//        startJokeDisplayActivity(mResult);
 
 
     }
 
-   /* private void startJokeDisplayActivity() {
+    private void startJokeDisplayActivity(String result) {
 
-        Toast.makeText(mContext, mResult+" : joke aya", Toast.LENGTH_SHORT).show();
-        Intent i=new Intent(,JokeShow)
-    }*/
+
+        Log.d("Project Result", result);
+        Intent i = new Intent(mContext, JokeShowActivity.class);
+        i.putExtra(INTENT_JOKE, result);
+        mContext.startActivity(i);
+    }
 }

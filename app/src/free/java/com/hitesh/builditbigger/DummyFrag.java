@@ -14,12 +14,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.hitesh.builditbigger.R;
+import com.google.android.gms.ads.InterstitialAd;
 import com.hitesh.library.JokeShowActivity;
-
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -31,6 +30,7 @@ public class DummyFrag extends Fragment {
     private static final String INTENT_JOKE = "joke";
     Context context;
     ProgressBar progressbar;
+    private InterstitialAd interstitialAd;
 
     public DummyFrag() {
         // Required empty public constructor
@@ -54,19 +54,56 @@ public class DummyFrag extends Fragment {
                 if (Util.isOnline(getActivity())) {
                     try {
 
-                        JokeFetchTask task = new JokeFetchTask((Activity)context,progressbar);
+                        JokeFetchTask task = new JokeFetchTask((Activity) context, progressbar);
                         task.execute();
 
-                        String result = task.get();
+                        final String result = task.get();
+                        interstitialAd = new InterstitialAd(context);
+                        interstitialAd.setAdUnitId(context.getString(R.string.interstitial_ad_unit_id));
+                        interstitialAd.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdClosed() {
+                                super.onAdClosed();
+                                startActivity(result);
+                            }
+
+                            @Override
+                            public void onAdFailedToLoad(int errorCode) {
+                                super.onAdFailedToLoad(errorCode);
+                                if (progressbar != null)
+                                    progressbar.setVisibility(View.GONE);
+                                startActivity(result);
+                            }
+
+                            @Override
+                            public void onAdOpened() {
+                                super.onAdOpened();
+                            }
+
+                            @Override
+                            public void onAdLoaded() {
+
+                                super.onAdLoaded();
+                                if (progressbar != null)
+                                    progressbar.setVisibility(View.GONE);
+                                interstitialAd.show();
+                            }
+
+                            @Override
+                            public void onAdLeftApplication() {
+                                super.onAdLeftApplication();
+                            }
+                        });
+
+                        AdRequest ar = new AdRequest
+                                .Builder()
+                                .build();
+                        interstitialAd.loadAd(ar);
 
                         Log.d("Project Result", result);
-                        Intent i = new Intent(getActivity(), JokeShowActivity.class);
-                        i.putExtra(INTENT_JOKE, result);
-                        startActivity(i);
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
+
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -83,5 +120,11 @@ public class DummyFrag extends Fragment {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
+    }
+
+    public void startActivity(String result) {
+        Intent i = new Intent(getActivity(), JokeShowActivity.class);
+        i.putExtra(INTENT_JOKE, result);
+        startActivity(i);
     }
 }
