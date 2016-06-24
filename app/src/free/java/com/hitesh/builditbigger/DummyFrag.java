@@ -64,7 +64,8 @@ public class DummyFrag extends Fragment {
                             @Override
                             public void onAdClosed() {
                                 super.onAdClosed();
-                                startActivity(result);
+                                if (result != null && !result.isEmpty())
+                                    startJokeDisplayActivity(result);
                             }
 
                             @Override
@@ -72,7 +73,7 @@ public class DummyFrag extends Fragment {
                                 super.onAdFailedToLoad(errorCode);
                                 if (progressbar != null)
                                     progressbar.setVisibility(View.GONE);
-                                startActivity(result);
+                                startJokeDisplayActivity(result);
                             }
 
                             @Override
@@ -122,9 +123,22 @@ public class DummyFrag extends Fragment {
 
     }
 
-    public void startActivity(String result) {
-        Intent i = new Intent(getActivity(), JokeShowActivity.class);
+    private void startJokeDisplayActivity(String result) {
+
+
+        Log.d("Project Result", result);
+        Intent i = new Intent(context, JokeShowActivity.class);
         i.putExtra(INTENT_JOKE, result);
-        startActivity(i);
+        context.startActivity(i);
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (progressbar != null && progressbar.getVisibility() == View.VISIBLE) {
+            progressbar.setVisibility(View.GONE);
+        }
+    }
+
 }

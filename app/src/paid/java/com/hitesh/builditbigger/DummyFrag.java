@@ -56,7 +56,8 @@ public class DummyFrag extends Fragment {
 
                         String result = task.get();
 
-                        startJokeDisplayActivity(result);
+                        if (result != null && !result.isEmpty())
+                            startJokeDisplayActivity(result);
 
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -80,4 +81,11 @@ public class DummyFrag extends Fragment {
         context.startActivity(i);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (progressbar != null && progressbar.getVisibility() == View.VISIBLE) {
+            progressbar.setVisibility(View.GONE);
+        }
+    }
 }

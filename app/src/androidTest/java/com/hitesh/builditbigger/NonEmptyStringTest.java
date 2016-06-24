@@ -4,7 +4,7 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 /**
- * Created by Matteo on 30/06/2015.
+ * Created by Hitesh Sutar on 6/23/2016.
  */
 public class NonEmptyStringTest extends AndroidTestCase {
 

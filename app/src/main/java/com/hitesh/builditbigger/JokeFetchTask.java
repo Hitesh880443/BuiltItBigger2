@@ -17,7 +17,7 @@ import com.hitesh.library.JokeShowActivity;
 import java.io.IOException;
 
 /**
- * Created by Vishal on 07-06-2016.
+ * Created by Hitesh Sutar on 07-06-2016.
  */
 public class JokeFetchTask extends AsyncTask<Pair<Context, String>, Void, String> {
     private static MyApi mJokeApi = null;
@@ -56,7 +56,7 @@ public class JokeFetchTask extends AsyncTask<Pair<Context, String>, Void, String
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Hitesh";
+        return null;
     }
 
     @Override
