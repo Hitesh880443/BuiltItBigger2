@@ -51,7 +51,7 @@ public class DummyFrag extends Fragment {
                 if (Util.isOnline(getActivity())) {
                     try {
 //                Toast.makeText(getActivity(), "Its Paid", Toast.LENGTH_SHORT).show();
-                        JokeFetchTask task = new JokeFetchTask((Activity) context, progressbar);
+                        JokeFetchTask task = new JokeFetchTask(progressbar,new JokeRetrievalHandler());
                         task.execute();
 
                         String result = task.get();
@@ -86,6 +86,14 @@ public class DummyFrag extends Fragment {
         super.onResume();
         if (progressbar != null && progressbar.getVisibility() == View.VISIBLE) {
             progressbar.setVisibility(View.GONE);
+        }
+    }
+
+    private class JokeRetrievalHandler implements JokeFetchTask.OnJokeRetrievedListener {
+
+        @Override
+        public void onJokeRetrieved(String joke) {
+
         }
     }
 }
