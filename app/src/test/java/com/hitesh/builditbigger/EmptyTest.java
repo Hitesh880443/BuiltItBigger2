@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
-public class ExampleUnitTest2 extends ApplicationTestCase<Application> {
+public class EmptyTest extends ApplicationTestCase<Application> {
 
     private CountDownLatch mSignal =null;
     String result="dsfdsf";
@@ -19,7 +19,7 @@ public class ExampleUnitTest2 extends ApplicationTestCase<Application> {
         assertEquals(4, 2 +2);
     }*/
     @SuppressWarnings("unchecked")
-    public ExampleUnitTest2() {
+    public EmptyTest() {
         super(Application.class);
     }
 
