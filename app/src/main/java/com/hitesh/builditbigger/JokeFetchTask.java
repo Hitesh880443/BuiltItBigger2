@@ -26,11 +26,11 @@ public class JokeFetchTask extends AsyncTask<Pair<Context, String>, Void, String
     private static final String INTENT_JOKE = "joke";
     private ProgressBar progressbar;
     private OnJokeRetrievedListener jokeListener;
-    public JokeFetchTask(Context context, ProgressBar progressbar) {
+   /* public JokeFetchTask(Context context, ProgressBar progressbar) {
         this.mContext = context;
         this.progressbar = progressbar;
         Log.d("Project", "constructor");
-    }
+    }*/
 
     public JokeFetchTask(ProgressBar progressbar,OnJokeRetrievedListener listener) {
         this.progressbar = progressbar;

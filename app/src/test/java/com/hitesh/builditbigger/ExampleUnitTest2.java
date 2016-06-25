@@ -18,7 +18,7 @@ public class ExampleUnitTest2 extends ApplicationTestCase<Application> {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 +2);
     }*/
-
+    @SuppressWarnings("unchecked")
     public ExampleUnitTest2() {
         super(Application.class);
     }
@@ -39,7 +39,7 @@ public class ExampleUnitTest2 extends ApplicationTestCase<Application> {
             endpointsAsyncTask.execute();
             boolean success = mSignal.await(5, TimeUnit.SECONDS);
             if (!success) {
-                fail("Test timed out, not able to reach Server");
+                fail("Test timed out, not able to reach Server "+result);
             }
 
         } catch (Exception e) {
@@ -53,6 +53,7 @@ public class ExampleUnitTest2 extends ApplicationTestCase<Application> {
 
         @Override
         public void onJokeRetrieved(String joke) throws InterruptedException {
+            result=joke;
             assertTrue(joke != null && joke.length() > 0);
             mSignal.await();
         }
