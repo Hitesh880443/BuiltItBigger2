@@ -1,36 +1,63 @@
 package com.hitesh.builditbigger;
 
-import android.content.Context;
-import android.test.ActivityInstrumentationTestCase2;
+import android.app.Application;
 import android.test.AndroidTestCase;
-import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.MediumTest;
+import android.test.ApplicationTestCase;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static org.junit.Assert.assertNotNull;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Created by 880443 on 6/24/2016.
+ * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
+public class EmptyTest extends ApplicationTestCase<Application> {
 
-public class EmptyTest extends InstrumentationTestCase {
+    private CountDownLatch mSignal =null;
+    String result="dsfdsf";
+    /*@Test
+    public void addition_isCorrect() throws Exception {
+        assertEquals(4, 2 +2);
+    }*/
+    @SuppressWarnings("unchecked")
+    public EmptyTest() {
+        super(Application.class);
+    }
 
 
+    @Override
+    protected void setUp() throws Exception {
+        mSignal = new CountDownLatch(1);
+    }
 
-    @Test
-    public void CheckNull() throws Exception {
-        String result = null;
-
-        JokeFetchTask endpointsAsyncTask = new JokeFetchTask(getInstrumentation().getContext(), null);
-        endpointsAsyncTask.execute();
+    @Override
+    protected void tearDown() throws Exception {
+        mSignal.countDown();
+    }
+    public void testJoke()  {
         try {
-            result = endpointsAsyncTask.get();
+            JokeFetchTask endpointsAsyncTask = new JokeFetchTask(null,new TestJokeListener());
+            endpointsAsyncTask.execute();
+            boolean success = mSignal.await(5, TimeUnit.SECONDS);
+            if (!success) {
+                fail("Test timed out, not able to reach Server "+result);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         }
-        assertNotNull(result);
+
     }
+
+    private class TestJokeListener implements JokeFetchTask.OnJokeRetrievedListener {
+
+        @Override
+        public void onJokeRetrieved(String joke) throws InterruptedException {
+            result=joke;
+            assertTrue(joke != null && joke.length() > 0);
+            mSignal.await();
+        }
+    }
+
+
 }
